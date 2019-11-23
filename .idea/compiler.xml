@@ -10,5 +10,8 @@
         <module name="nio" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="nioreactor" target="8" />
+    </bytecodeTargetLevel>
   </component>
 </project>
