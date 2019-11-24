@@ -54,7 +54,6 @@ public class NIOServer {
                     // 6.1 连接事件
                     if (next.isAcceptable()) {
                         // 6.1.1 客户端连接，channel
-                        System.out.println("client connect");
                         ServerSocketChannel channel = (ServerSocketChannel) next.channel();
                         SocketChannel clientChannel = channel.accept();
                         if (clientChannel != null) {
@@ -67,8 +66,8 @@ public class NIOServer {
                     // 6.2 读事件就绪
                     else if (next.isReadable()) {
                         try {
-                            // 6.2.1 创建readBuffer
-                            ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+                            // 6.2.1 创建readBuffer,因为readBuffer只是从channel读一次数据，所以不需要调用clear()，也不需要再往channel里写数据，所以不需要调用flip()
+                            ByteBuffer readBuffer = ByteBuffer.allocate(64);
                             SocketChannel channel = (SocketChannel) next.channel();
                             // 6.2.2 读取readBuffer
                             int len = channel.read(readBuffer);
@@ -76,11 +75,10 @@ public class NIOServer {
                             if (len == -1) {
                                 // 关闭channel（key将失效）
                                 channel.close();
+                                continue;
                             }
                             System.out.println(next.channel() + "客户端发来数据:" + new String(readBuffer.array()));
-                            // 6.2.3 Buffer切换读写模式
-                            readBuffer.flip();
-                            // 6.2.4 一次读操作结束以后将关注点切换到写操作
+                            // 6.2.3 一次读操作结束以后将关注点切换到写操作
                             next.interestOps(SelectionKey.OP_WRITE);
                         } catch (IOException e) {
                             /*
@@ -92,14 +90,16 @@ public class NIOServer {
                             next.cancel();
                         }
                     }
-                    // 6.2 写事件就绪
+                    // 6.3 写事件就绪
                     else if (next.isValid() && next.isWritable()) {
-                        ByteBuffer sendBuffer = ByteBuffer.allocate(1024);
+                        // 6.3.1 创建readBuffer
+                        ByteBuffer sendBuffer = ByteBuffer.allocate(64);
                         sendBuffer.put("hello world from server".getBytes());
                         SocketChannel channel = (SocketChannel) next.channel();
-                        channel.write(sendBuffer);
-                        System.out.println("服务端发送返回：---》" + new String(sendBuffer.array()));
+                        // 6.3.2 因为sendBuffer前面调用了put(),所以需要调用flip()，将position置为0，否则后面write拿不到数据
                         sendBuffer.flip();
+                        System.out.println("服务端发送返回：----> " + new String(sendBuffer.array()));
+                        channel.write(sendBuffer);
                         next.interestOps(SelectionKey.OP_READ);
                     }
                 }

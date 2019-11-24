@@ -12,25 +12,28 @@ import java.nio.channels.SocketChannel;
  */
 public class NIOClient {
     public static void main(String[] args) {
-        // try {
-        //    for (int i = 0; i < 10; i++) {
-        //        new Thread(NIOClient::sendAndReceiveClient).start();
-        //    }
-        //    Thread.sleep(3000);
-        sendAndReceiveClient();
-        // } catch (InterruptedException e) {
-        //     e.printStackTrace();
-        // }
+        try {
+           for (int i = 0; i < 10; i++) {
+               new Thread(NIOClient::sendAndReceiveClient).start();
+           }
+           Thread.sleep(3000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     private static void sendAndReceiveClient() {
         try {
             SocketChannel socketChannel = SocketChannel.open(new InetSocketAddress("localhost", 7777));
-            ByteBuffer sendBuffer = ByteBuffer.allocate(1024).put("hello world".getBytes());
-            System.out.println(socketChannel + "发送到服务端:" + new String(sendBuffer.array()));
-            socketChannel.write(sendBuffer);
+            ByteBuffer sendBuffer = ByteBuffer.allocate(64);
+
+            sendBuffer.put("hello world from client".getBytes());
+            // 因为sendBuffer前面调用了put(),所以需要调用flip()，将position置为0，否则后面write拿不到数据
             sendBuffer.flip();
-            ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+            socketChannel.write(sendBuffer);
+            System.out.println(socketChannel + "发送到服务端:" + new String(sendBuffer.array()));
+
+            ByteBuffer readBuffer = ByteBuffer.allocate(64);
             socketChannel.read(readBuffer);
             System.out.println(socketChannel + "接受到服务端:" + new String(readBuffer.array()));
             socketChannel.close();

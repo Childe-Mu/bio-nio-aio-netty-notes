@@ -1,19 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="b07bd907-227c-4db6-9618-a5d087915040" name="Default Changelist" comment="【新增】新增nio reactor的各种情况的实现demo">
-      <change afterPath="$PROJECT_DIR$/.idea/bio-nio-aio-netty-notes.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="b07bd907-227c-4db6-9618-a5d087915040" name="Default Changelist" comment="【修改】修改了com.moon.nio.NIOClient（主动、被动）关闭时，服务的bug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOServer.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/META-INF/nio.kotlin_module" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOClient.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/simple/NIOServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/simple/NIOServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/AbstractReactor.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/AbstractReactor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/Acceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/Acceptor.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/WorkerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/WorkerHandler.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -200,7 +193,7 @@
       <workItem from="1574391194156" duration="11082000" />
       <workItem from="1574415932282" duration="692000" />
       <workItem from="1574472262139" duration="16946000" />
-      <workItem from="1574585849886" duration="13313000" />
+      <workItem from="1574585849886" duration="18948000" />
     </task>
     <task id="LOCAL-00001" summary="【新增】新增bio项目">
       <created>1574391409050</created>
@@ -251,7 +244,14 @@
       <option name="project" value="LOCAL" />
       <updated>1574415991515</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="【修改】修改了com.moon.nio.NIOClient（主动、被动）关闭时，服务的bug">
+      <created>1574601386644</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1574601386645</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -277,7 +277,8 @@
     <MESSAGE value="【修改】修改bio项目pom文件" />
     <MESSAGE value="【修改】修改bio项目serve端" />
     <MESSAGE value="【修改】test" />
-    <option name="LAST_COMMIT_MESSAGE" value="【修改】test" />
+    <MESSAGE value="【修改】修改了com.moon.nio.NIOClient（主动、被动）关闭时，服务的bug" />
+    <option name="LAST_COMMIT_MESSAGE" value="【修改】修改了com.moon.nio.NIOClient（主动、被动）关闭时，服务的bug" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -359,8 +360,28 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
-          <line>35</line>
+          <line>38</line>
           <option name="timeStamp" value="34" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>37</line>
+          <option name="timeStamp" value="39" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>36</line>
+          <option name="timeStamp" value="41" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>29</line>
+          <option name="timeStamp" value="42" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>27</line>
+          <option name="timeStamp" value="43" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
