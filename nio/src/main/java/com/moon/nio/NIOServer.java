@@ -37,7 +37,6 @@ public class NIOServer {
             */
             // 4.注册事件监听(监听客户端连接事件)
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-
             int selectNum = 0;
             while (true) {
                 // 5.阻塞select，等待io事件就绪
@@ -55,34 +54,51 @@ public class NIOServer {
                     // 6.1 连接事件
                     if (next.isAcceptable()) {
                         // 6.1.1 客户端连接，channel
-                        SocketChannel clientChannel = serverSocketChannel.accept();
+                        System.out.println("client connect");
+                        ServerSocketChannel channel = (ServerSocketChannel) next.channel();
+                        SocketChannel clientChannel = channel.accept();
                         if (clientChannel != null) {
                             clientChannel.configureBlocking(false);
                             System.out.println("新连接：" + clientChannel);
                             // 6.1.2 注册read、write事件
-                            clientChannel.register(selector, SelectionKey.OP_READ | SelectionKey.OP_WRITE);
+                            clientChannel.register(selector, SelectionKey.OP_READ);
                         }
                     }
                     // 6.2 读事件就绪
                     else if (next.isReadable()) {
-                        // 6.2.1 创建readBuffer
-                        ByteBuffer readBuffer = ByteBuffer.allocate(1024);
-                        SocketChannel channel = (SocketChannel) next.channel();
-                        // 6.2.2 读取readBuffer
-                        channel.read(readBuffer);
-                        // 6.2.3 Buffer切换读写模式
-                        readBuffer.flip();
-                        System.out.println(next.channel() + "客户端发来数据:" + new String(readBuffer.array()));
-                        // 6.2.4 一次读操作结束以后将关注点切换到写操作
-                        next.interestOps(SelectionKey.OP_WRITE);
+                        try {
+                            // 6.2.1 创建readBuffer
+                            ByteBuffer readBuffer = ByteBuffer.allocate(1024);
+                            SocketChannel channel = (SocketChannel) next.channel();
+                            // 6.2.2 读取readBuffer
+                            int len = channel.read(readBuffer);
+                            // read()返回值为 -1时，说明客户端的连接已经 主动 关闭了
+                            if (len == -1) {
+                                // 关闭channel（key将失效）
+                                channel.close();
+                            }
+                            System.out.println(next.channel() + "客户端发来数据:" + new String(readBuffer.array()));
+                            // 6.2.3 Buffer切换读写模式
+                            readBuffer.flip();
+                            // 6.2.4 一次读操作结束以后将关注点切换到写操作
+                            next.interestOps(SelectionKey.OP_WRITE);
+                        } catch (IOException e) {
+                            /*
+                            当客户端 被动 切断连接的时候，比如，线程直接结束等，服务端 Socket 的读事件（FD_READ）仍然起作用，
+                            也就是说，服务端 Socket 的状态仍然是有东西可读，但是读取时（步骤6.2.2）就会抛出IOException异常。
+                            这时需要cancel对应的key。
+                             */
+                            //取消selectionKey
+                            next.cancel();
+                        }
                     }
                     // 6.2 写事件就绪
-                    else if (next.isWritable()) {
+                    else if (next.isValid() && next.isWritable()) {
                         ByteBuffer sendBuffer = ByteBuffer.allocate(1024);
                         sendBuffer.put("hello world from server".getBytes());
                         SocketChannel channel = (SocketChannel) next.channel();
-                        System.out.println("服务端发送返回：---》" + channel);
                         channel.write(sendBuffer);
+                        System.out.println("服务端发送返回：---》" + new String(sendBuffer.array()));
                         sendBuffer.flip();
                         next.interestOps(SelectionKey.OP_READ);
                     }

@@ -2,16 +2,18 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="b07bd907-227c-4db6-9618-a5d087915040" name="Default Changelist" comment="【新增】新增nio reactor的各种情况的实现demo">
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/bio-nio-aio-netty-notes.iml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bio/target/classes/com/moon/BIOServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/bio/target/classes/com/moon/BIOServer.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/NIOClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/NIOServer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/NIOClient.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/NIOServer.class" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOServer.java" beforeDir="false" afterPath="$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOServer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/META-INF/nio.kotlin_module" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOClient.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOClient.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/nio/NIOServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/simple/NIOServer.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/simple/NIOServer.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/AbstractReactor.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/AbstractReactor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/Acceptor.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/Acceptor.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/WorkerHandler.class" beforeDir="false" afterPath="$PROJECT_DIR$/nio/target/classes/com/moon/reactor/standard/server/WorkerHandler.class" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -60,6 +62,7 @@
     </option>
   </component>
   <component name="MavenRunner">
+    <option name="jreName" value="11" />
     <option name="skipTests" value="true" />
   </component>
   <component name="ProjectId" id="1Tx6TF7TFW1Kg5LdOAJvTLJltQH" />
@@ -77,10 +80,16 @@
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$/resources" />
-    <property name="project.structure.last.edited" value="Modules" />
+    <property name="node.js.detected.package.eslint" value="true" />
+    <property name="node.js.detected.package.tslint" value="true" />
+    <property name="node.js.path.for.package.eslint" value="project" />
+    <property name="node.js.path.for.package.tslint" value="project" />
+    <property name="node.js.selected.package.eslint" value="(autodetect)" />
+    <property name="node.js.selected.package.tslint" value="(autodetect)" />
+    <property name="project.structure.last.edited" value="Global Libraries" />
     <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
-    <property name="settings.editor.selected.configurable" value="reference.settings.project.maven.runner" />
+    <property name="settings.editor.selected.configurable" value="preferences.sourceCode.Java" />
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
@@ -141,12 +150,12 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="ReactorTest" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="com.moon.server.ReactorTest" />
-      <module name="nioreactor" />
+    <configuration name="NIOServer" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.moon.nio.NIOServer" />
+      <module name="nio" />
       <extension name="coverage">
         <pattern>
-          <option name="PATTERN" value="com.moon.server.*" />
+          <option name="PATTERN" value="com.moon.nio.*" />
           <option name="ENABLED" value="true" />
         </pattern>
       </extension>
@@ -170,10 +179,10 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.NIOClient" />
+        <item itemvalue="Application.NIOServer" />
         <item itemvalue="Application.NIOServer (1)" />
         <item itemvalue="Application.ZeroCopy" />
         <item itemvalue="Application.BIOClient" />
-        <item itemvalue="Application.ReactorTest" />
       </list>
     </recent_temporary>
   </component>
@@ -191,6 +200,7 @@
       <workItem from="1574391194156" duration="11082000" />
       <workItem from="1574415932282" duration="692000" />
       <workItem from="1574472262139" duration="16946000" />
+      <workItem from="1574585849886" duration="13313000" />
     </task>
     <task id="LOCAL-00001" summary="【新增】新增bio项目">
       <created>1574391409050</created>
@@ -341,6 +351,16 @@
           <url>file://$PROJECT_DIR$/nio-reactor/src/main/java/com/moon/server/AbstractReactor.java</url>
           <line>32</line>
           <option name="timeStamp" value="17" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>16</line>
+          <option name="timeStamp" value="21" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="java-line">
+          <url>file://$PROJECT_DIR$/nio/src/main/java/com/moon/nio/NIOClient.java</url>
+          <line>35</line>
+          <option name="timeStamp" value="34" />
         </line-breakpoint>
       </breakpoints>
     </breakpoint-manager>
