@@ -41,6 +41,7 @@ public class NIOServer {
             while (true) {
                 // 5.阻塞select，等待io事件就绪
                 selectNum = selector.select();
+                // 这里的判断其实没有用，select()方法只要返回，selectNum就一定大于0，只用调用selectNow()方法时才有用
                 if (selectNum == 0) {
                     continue;
                 }
@@ -49,8 +50,6 @@ public class NIOServer {
                 Iterator<SelectionKey> selectionKeyIterator = selectionKeys.iterator();
                 while (selectionKeyIterator.hasNext()) {
                     SelectionKey next = selectionKeyIterator.next();
-                    // [!]手动remove,否则会导致select一直返回0
-                    selectionKeyIterator.remove();
                     // 6.1 连接事件
                     if (next.isAcceptable()) {
                         // 6.1.1 客户端连接，channel
@@ -102,6 +101,12 @@ public class NIOServer {
                         channel.write(sendBuffer);
                         next.interestOps(SelectionKey.OP_READ);
                     }
+                    /*
+                     * 6.3
+                     * 每次迭代末尾的remove()调用，Selector不会自己从已选择的SelectionKey集合中
+                     * 移除SelectionKey实例的，必须在处理完通道时自己移除
+                     */
+                    selectionKeyIterator.remove();
                 }
             }
         } catch (IOException e) {
