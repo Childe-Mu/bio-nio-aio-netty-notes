@@ -17,38 +17,28 @@ import java.util.concurrent.Executors;
  */
 class Processor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
-    private static final ExecutorService service = Executors.newFixedThreadPool(1);
+    private ExecutorService service = Executors.newFixedThreadPool(1);
 
     void process(SelectionKey selectionKey) {
-        // 下面说的问题，就是多选称的原因，多线程不是这么用的
-        // service.submit(() -> {
-        service.execute(() -> {
+        // 下面说的问题，就是多线程的原因，会产生并发问题导致进入catch到IOException，不停打印 客户端异常中断
+        service.submit(() -> {
             try {
-                ByteBuffer readBuffer = ByteBuffer.allocate(64);
                 SocketChannel socketChannel = (SocketChannel) selectionKey.channel();
-                int count;
-                count = socketChannel.read(readBuffer);
-
+                ByteBuffer readBuffer = ByteBuffer.allocate(64);
+                int count = socketChannel.read(readBuffer);
                 // 客户端主动中断
                 if (count < 0) {
                     socketChannel.close();
                     selectionKey.cancel();
-                    LOGGER.info("{}\t Read ended", socketChannel);
-                    // return null;
+                    LOGGER.info(Thread.currentThread().getName() + "{}\t Read ended", socketChannel);
+                } else {
+                    LOGGER.info(Thread.currentThread().getName() + "{}\t Read message {}", socketChannel, new String(readBuffer.array()));
                 }
-                // 客户端发送数据为空
-                else if (count == 0) {
-                    // return null;
-                }
-                LOGGER.info("{}\t Read message {}", socketChannel, new String(readBuffer.array()));
-                // return null;
             } catch (IOException e) {
                 // 客户端被动中断
-                // socketChannel.close();
                 selectionKey.cancel();
-                // 不懂这一块为什么会多次进入？？？？？？？？？？？？,感觉是多线程的问题
+                // 会多次进入，是多线程的问题
                 LOGGER.info(Thread.currentThread().getName() + " 客户端异常中断");
-                // return null;
             }
         });
     }

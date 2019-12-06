@@ -23,7 +23,8 @@ import java.util.concurrent.Executors;
 class Processor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
     private static final ExecutorService service =
-            Executors.newFixedThreadPool(2 * Runtime.getRuntime().availableProcessors());
+            Executors.newFixedThreadPool(2);
+            // Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
     private Selector selector;
 

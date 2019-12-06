@@ -29,7 +29,8 @@ public class NIOServer {
         serverSocketChannel.bind(new InetSocketAddress(7777));
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
-        int coreNum = Runtime.getRuntime().availableProcessors();
+        // int coreNum = Runtime.getRuntime().availableProcessors();
+        int coreNum = 4;
         Processor[] processors = new Processor[coreNum];
         for (int i = 0; i < processors.length; i++) {
             processors[i] = new Processor();
