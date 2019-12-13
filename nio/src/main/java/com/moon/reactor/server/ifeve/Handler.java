@@ -17,14 +17,14 @@ import java.nio.channels.SocketChannel;
 final class Handler implements Runnable {
     private static Logger log = LoggerFactory.getLogger(Reactor.class);
 
-    static final int MAXIN = 1024;
-    static final int MAXOUT = 1024;
-    final SocketChannel socket;
-    final SelectionKey sk;
-    ByteBuffer input = ByteBuffer.allocate(MAXIN);
-    ByteBuffer output = ByteBuffer.allocate(MAXOUT);
-    static final int READING = 0, SENDING = 1;
-    int state = READING;
+    private static final int MAXIN = 1024;
+    private static final int MAXOUT = 1024;
+    private final SocketChannel socket;
+    private final SelectionKey sk;
+    private ByteBuffer input = ByteBuffer.allocate(MAXIN);
+    private ByteBuffer output = ByteBuffer.allocate(MAXOUT);
+    private static final int READING = 0, SENDING = 1;
+    private int state = READING;
 
     Handler(Selector selector, SocketChannel c) throws IOException {
         socket = c;
@@ -39,15 +39,15 @@ final class Handler implements Runnable {
         selector.wakeup();
     }
 
-    boolean inputIsComplete() {
+    private boolean inputIsComplete() {
         return true; //只是返回true，具体的判断没有实现
     }
 
-    boolean outputIsComplete() {
+    private boolean outputIsComplete() {
         return true;//只是返回true，具体的判断没有实现
     }
 
-    void process() { //没有具体实现
+    private void process() { //没有具体实现
         output.put("helloworld".getBytes());
     }
 
@@ -61,7 +61,7 @@ final class Handler implements Runnable {
         } catch (IOException ex) { /* . . . */ }
     }
 
-    void read() throws IOException {
+    private void read() throws IOException {
         log.info("->read into bytebuffer from socketchannel inputs");
         socket.read(input);
         if (inputIsComplete()) {
@@ -74,11 +74,11 @@ final class Handler implements Runnable {
         }
     }
 
-    void send() throws IOException {
+    private void send() throws IOException {
         log.info("->write into socketchannel from bytebuffer outputs");
         socket.write(output);
         if (outputIsComplete()) {
-            /**
+            /*
              * The key will be removed fromall of the selector's key sets
              * during the next selection operation.
              */

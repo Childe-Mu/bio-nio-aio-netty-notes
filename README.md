@@ -1,7 +1,9 @@
 # bio-nio-aio-netty-notes
 bio、nio、aio、netty学习笔记
 
-[Java NIO、Reactor、Netty](https://blog.csdn.net/ZXW601498616/article/details/88839863)
+1. [Java NIO、Reactor、Netty](https://blog.csdn.net/ZXW601498616/article/details/88839863)
+
+2. [Netty源码解读（四）Netty与Reactor模式](http://ifeve.com/netty-reactor-4/)
 
 https://blog.csdn.net/Houson_c/article/details/86114771
 
