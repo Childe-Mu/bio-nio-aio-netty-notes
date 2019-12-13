@@ -49,10 +49,9 @@ public class NIOServer {
                     LOGGER.info("Accept request from {}", socketChannel.getRemoteAddress());
                     SelectionKey readKey = socketChannel.register(selector, SelectionKey.OP_READ);
                     // 绑定客户端读写请求处理器
-                    // readKey.attach(new Processor());
+                    readKey.attach(new Processor());
                 } else if (next.isReadable()) {
-                    Processor processor = new Processor();
-                    // Processor processor = (Processor) next.attachment();
+                    Processor processor = (Processor) next.attachment();
                     processor.process(next);
                     LOGGER.info("进入 process() ");
                 }

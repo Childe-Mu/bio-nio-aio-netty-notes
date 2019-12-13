@@ -16,15 +16,16 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 /**
- * @Description:
+ * @Description: 客户端读写请求处理器，多个reactor模式
  * @Author: moon
  * @Date: 2019-11-23 17:39:46
  */
 class Processor {
     private static final Logger LOGGER = LoggerFactory.getLogger(Processor.class);
+    // 如果开 2*Runtime.getRuntime().availableProcessors() 个线程，会非常卡
     private static final ExecutorService service =
             Executors.newFixedThreadPool(2);
-            // Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
+            // Executors.newFixedThreadPool(2*Runtime.getRuntime().availableProcessors());
 
     private Selector selector;
 
@@ -40,28 +41,33 @@ class Processor {
     private void start() {
         service.submit(() -> {
             while (true) {
-                if (selector.selectNow() <= 0) {
-                    continue;
-                }
-                Set<SelectionKey> keys = selector.selectedKeys();
-                Iterator<SelectionKey> iterator = keys.iterator();
-                while (iterator.hasNext()) {
-                    SelectionKey key = iterator.next();
-                    iterator.remove();
-                    if (key.isReadable()) {
-                        ByteBuffer buffer = ByteBuffer.allocate(1024);
-                        SocketChannel socketChannel = (SocketChannel) key.channel();
-                        int count = socketChannel.read(buffer);
-                        if (count < 0) {
-                            socketChannel.close();
-                            key.cancel();
-                            LOGGER.info("{}\t Read ended", socketChannel);
-                        } else if (count == 0) {
-                            LOGGER.info("{}\t Message size is 0", socketChannel);
-                        } else {
-                            LOGGER.info("{}\t Read message {}", socketChannel, new String(buffer.array()));
+                try {
+                    if (selector.selectNow() <= 0) {
+                        continue;
+                    }
+                    Set<SelectionKey> keys = selector.selectedKeys();
+                    Iterator<SelectionKey> iterator = keys.iterator();
+                    while (iterator.hasNext()) {
+                        SelectionKey key = iterator.next();
+                        iterator.remove();
+                        if (key.isReadable()) {
+                            ByteBuffer buffer = ByteBuffer.allocate(1024);
+                            SocketChannel socketChannel = (SocketChannel) key.channel();
+                            int count = socketChannel.read(buffer);
+                            if (count < 0) {
+                                socketChannel.close();
+                                key.cancel();
+                                LOGGER.info("{}\t Read ended", socketChannel);
+                            } else if (count == 0) {
+                                LOGGER.info("{}\t Message size is 0", socketChannel);
+                            } else {
+                                LOGGER.info("{}\t Read message {}", socketChannel, new String(buffer.array()));
+                            }
                         }
                     }
+                } catch (IOException e){
+                    LOGGER.info("异常：", e);
+                    break;
                 }
             }
         });

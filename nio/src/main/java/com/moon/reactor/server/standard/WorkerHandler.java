@@ -72,7 +72,7 @@ public class WorkerHandler implements Runnable {
             if (selectionKey.isReadable()) {
                 read();
             } else if (selectionKey.isWritable()) {
-                send();
+                // send();
             } else {
                 selectionKey.cancel();
                 socketChannel.close();

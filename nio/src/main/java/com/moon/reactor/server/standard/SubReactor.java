@@ -18,8 +18,8 @@ final class SubReactor extends AbstractReactor {
      *
      * @throws IOException 创建selector时异常
      */
-    public SubReactor() throws IOException {
-        threadPool = Executors.newFixedThreadPool(3);
+    SubReactor() throws IOException {
+        threadPool = Executors.newFixedThreadPool(2);
         selector = Selector.open();
     }
 
@@ -29,7 +29,7 @@ final class SubReactor extends AbstractReactor {
      * @param clientChannel 接收到的客户端链接channel
      * @throws IOException 配置和注册时异常
      */
-    public void registerInSubReactor(SocketChannel clientChannel) throws IOException {
+    void registerInSubReactor(SocketChannel clientChannel) throws IOException {
         // 配置为非阻塞模式
         clientChannel.configureBlocking(false);
         // 注册读事件
@@ -39,9 +39,11 @@ final class SubReactor extends AbstractReactor {
         selector.wakeup();
         // 创建读写workerHandler
         WorkerHandler workerHandler = new WorkerHandler(clientChannel, selectionKey);
-        //给selectionKey固定一个线程和handler去执行读写，netty eventGroup的目的？
+        // 给selectionKey固定一个线程和handler去执行读写，netty eventGroup的目的？
         selectionKey.attach(workerHandler);
-        workerHandler.registered(clientChannel);
+
+        // workerHandler.registered(clientChannel);
+        System.out.println("新连接完成" + clientChannel);
     }
 
     /**

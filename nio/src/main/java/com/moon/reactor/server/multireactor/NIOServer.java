@@ -4,10 +4,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.IOException;
-import java.io.RandomAccessFile;
 import java.net.InetSocketAddress;
-import java.nio.ByteBuffer;
-import java.nio.channels.FileChannel;
 import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
@@ -15,7 +12,7 @@ import java.nio.channels.SocketChannel;
 import java.util.Set;
 
 /**
- * @Description:
+ * @Description: 多个reactor模式
  * @Author: moon
  * @Date: 2019-11-23 17:38:34
  */
@@ -29,6 +26,7 @@ public class NIOServer {
         serverSocketChannel.bind(new InetSocketAddress(7777));
         serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
 
+        // 如果开 2*Runtime.getRuntime().availableProcessors() 个线程，会非常卡
         // int coreNum = Runtime.getRuntime().availableProcessors();
         int coreNum = 4;
         Processor[] processors = new Processor[coreNum];

@@ -34,7 +34,7 @@ class Acceptor {
      * @param selector            客户端连接事件监听器
      * @throws IOException 异常
      */
-    public Acceptor(ServerSocketChannel serverSocketChannel, Selector selector) throws IOException {
+    Acceptor(ServerSocketChannel serverSocketChannel, Selector selector) throws IOException {
         this.serverSocketChannel = serverSocketChannel;
         this.selector = selector;
         this.subReactor = new SubReactor();
@@ -44,7 +44,7 @@ class Acceptor {
     /**
      * 与客户端的连接建立
      */
-    public void myAccept() {
+    void myAccept() {
         try {
             // 客户端连接建立
             SocketChannel client = serverSocketChannel.accept();
@@ -55,7 +55,6 @@ class Acceptor {
                 subReactor.registerInSubReactor(client);
             }
         } catch (IOException ex) {
-            System.out.println(ex);
             ex.printStackTrace();
         }
     }

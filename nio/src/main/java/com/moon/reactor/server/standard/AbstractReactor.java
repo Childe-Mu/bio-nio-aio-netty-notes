@@ -33,7 +33,7 @@ public abstract class AbstractReactor implements Runnable {
                 Set<SelectionKey> selected = selector.selectedKeys();
                 iterator(selected);
             } catch (Exception ex) {
-                System.out.println(ex);
+                ex.printStackTrace();
             }
         }
     }
@@ -42,7 +42,7 @@ public abstract class AbstractReactor implements Runnable {
         Iterator it = selected.iterator();
         while (it.hasNext()) {
             SelectionKey next = (SelectionKey) it.next();
-            //线程不安全的
+            // 线程不安全的
             it.remove();
             dispatch(next);
         }
@@ -59,8 +59,6 @@ public abstract class AbstractReactor implements Runnable {
             if (selectionKey.isValid() && (selectionKey.isReadable() || selectionKey.isWritable())) {
                 Runnable workerHandler = (Runnable) (selectionKey.attachment());
                 execute(workerHandler);
-                // 线程不安全的，remove有问题
-                // selected.remove(selectionKey);
             }
         } catch (Exception e) {
             e.printStackTrace();

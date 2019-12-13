@@ -9,9 +9,9 @@ import java.io.IOException;
  */
 public class ReactorTest {
     public static void main(String[] args) throws IOException {
-        //        new Thread(new MainReactor(6666)).start();
-        int port = 6666;
-        BootStrap.start(port);
+        int port = 7777;
+        AbstractReactor main = new MainReactor(port);
+        main.myStart();
         // 只是为了阻塞线程，不让main线程结束
         System.in.read();
     }

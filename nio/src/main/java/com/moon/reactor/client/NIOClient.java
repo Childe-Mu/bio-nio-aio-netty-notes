@@ -13,7 +13,7 @@ import java.nio.channels.SocketChannel;
 public class NIOClient {
     public static void main(String[] args) {
         try {
-           for (int i = 0; i < 2; i++) {
+           for (int i = 0; i < 1; i++) {
                new Thread(NIOClient::sendAndReceiveClient).start();
            }
            Thread.sleep(3000);
