@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class ReactorTest {
 
-    public static void main(String args[]) throws IOException {
+    public static void main(String[] args) throws IOException {
         Reactor reactor = new Reactor(7777);
         reactor.run();
     }

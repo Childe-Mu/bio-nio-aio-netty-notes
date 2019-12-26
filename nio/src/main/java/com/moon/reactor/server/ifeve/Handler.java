@@ -15,14 +15,14 @@ import java.nio.channels.SocketChannel;
  * @Date: 2019-12-13 19:51:08
  */
 final class Handler implements Runnable {
-    private static Logger log = LoggerFactory.getLogger(Reactor.class);
+    private static Logger log = LoggerFactory.getLogger(Handler.class);
 
-    private static final int MAXIN = 1024;
-    private static final int MAXOUT = 1024;
+    private static final int MAX_IN = 1024;
+    private static final int MAX_OUT = 1024;
     private final SocketChannel socket;
     private final SelectionKey sk;
-    private ByteBuffer input = ByteBuffer.allocate(MAXIN);
-    private ByteBuffer output = ByteBuffer.allocate(MAXOUT);
+    private ByteBuffer input = ByteBuffer.allocate(MAX_IN);
+    private ByteBuffer output = ByteBuffer.allocate(MAX_OUT);
     private static final int READING = 0, SENDING = 1;
     private int state = READING;
 
@@ -39,16 +39,17 @@ final class Handler implements Runnable {
         selector.wakeup();
     }
 
-    private boolean inputIsComplete() {
+    private boolean inputIsCompleted() {
         return true; //只是返回true，具体的判断没有实现
     }
 
-    private boolean outputIsComplete() {
+    private boolean outputIsCompleted() {
         return true;//只是返回true，具体的判断没有实现
     }
 
     private void process() { //没有具体实现
-        output.put("helloworld".getBytes());
+        log.error("->来自客户端的数据：{}", new String(input.array()));
+        output.put("hello world".getBytes());
     }
 
     // class Handler continued
@@ -62,9 +63,9 @@ final class Handler implements Runnable {
     }
 
     private void read() throws IOException {
-        log.info("->read into bytebuffer from socketchannel inputs");
+        log.info("->read into byteBuffer from socketChannel inputs");
         socket.read(input);
-        if (inputIsComplete()) {
+        if (inputIsCompleted()) {
             log.info("->read complete");
             process();
             state = SENDING;
@@ -75,16 +76,16 @@ final class Handler implements Runnable {
     }
 
     private void send() throws IOException {
-        log.info("->write into socketchannel from bytebuffer outputs");
+        log.info("->write into socketChannel from byteBuffer outputs");
         socket.write(output);
-        if (outputIsComplete()) {
+        if (outputIsCompleted()) {
             /*
-             * The key will be removed fromall of the selector's key sets
+             * The key will be removed from all of the selector's key sets
              * during the next selection operation.
              */
             sk.cancel();
             socket.close(); //关闭通过，也就关闭了连接
-            log.info("->close socketchannel after write complete");
+            log.info("->close socketChannel after write complete");
         }
     }
 }
