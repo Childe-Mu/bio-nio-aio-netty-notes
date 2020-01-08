@@ -11,7 +11,7 @@
     <modules>
         <module>bio</module>
         <module>nio</module>
-        <module>nio-reactor</module>
+        <module>aio</module>
     </modules>
 
     <name>bio_nio_aio_netty_notes</name>
