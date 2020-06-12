@@ -15,7 +15,7 @@ import java.util.Set;
  * @Author: moon
  * @Date: 2019-11-22 14:10:47
  */
-public class NIOServer {
+public class NIOServer1 {
     public static void main(String[] args) {
         try {
             // 1.初始化
@@ -37,11 +37,11 @@ public class NIOServer {
             */
             // 4.注册事件监听(监听客户端连接事件)
             serverSocketChannel.register(selector, SelectionKey.OP_ACCEPT);
-            int selectNum = 0;
+            int selectNum;
             while (true) {
                 // 5.阻塞select，等待io事件就绪
                 selectNum = selector.select();
-                // 这里的判断其实没有用，select()方法只要返回，selectNum就一定大于0，只用调用selectNow()方法时才有用
+                // 这里的判断其实没有用，select()方法只要返回，selectNum就一定大于0，只有调用selectNow()方法时才有用
                 if (selectNum == 0) {
                     continue;
                 }

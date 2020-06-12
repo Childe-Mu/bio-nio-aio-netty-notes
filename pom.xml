@@ -12,11 +12,10 @@
         <module>bio</module>
         <module>nio</module>
         <module>aio</module>
+        <module>netty</module>
     </modules>
 
     <name>bio_nio_aio_netty_notes</name>
-    <!-- FIXME change it to the project's website -->
-    <url>http://www.example.com</url>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
